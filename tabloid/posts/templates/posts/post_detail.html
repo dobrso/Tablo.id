@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Пост {{ post.title }}
+{% endblock %}
+
+{% block content %}
+    {{ post.title }}
+
+    {% if post.author == request.user %}
+        <a href="{% url 'posts:post_edit' %}">Изменить</a>
+        <a href="{% url 'posts:post_delete' %}">Удалить</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+[project]
+name = "tablo-id"
+version = "0.1.0"
+description = "Tablo.id: a project inspired by Eblo.id"
+authors = [
+    {name = "dobrso"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django (>=6.0.4,<7.0.0)",
+    "python-dotenv (>=1.2.2,<2.0.0)",
+    "psycopg2-binary (>=2.9.12,<3.0.0)",
+    "djangorestframework (>=3.17.1,<4.0.0)",
+    "drf-spectacular (>=0.29.0,<0.30.0)"
+]
+
+[tool.poetry]
+packages = [{include = "tablo"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Лента
+{% endblock %}
+
+{% block content %}
+    <a href="{% url 'posts:post_create' %}">Создать пост</a>
+    {% for post in posts %}
+        {{ post.title }}
+    {% endfor %}
+{% endblock %}
