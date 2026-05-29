@@ -5,7 +5,7 @@ description = "Tablo.id: a project inspired by Eblo.id"
 authors = [
     {name = "dobrso"}
 ]
-include = [{ from = ".", to = "tablo-id" }]
+packages = [{ include = "tabloid" }]
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
