@@ -49,12 +49,11 @@ jobs:
 
       - name: Устанавливаем зависимости
         run: |
-          poetry install --no-interaction --with main
+          poetry install --no-interaction --no-root
 
       - name: Запускаем тесты
         env:
           DJANGO_SETTING_MODULE: tabloid.settings
-          PYTHONPATH: tabloid
           DB_HOST: localhost
           DB_NAME: tabloid_test
           DB_USER: admin
