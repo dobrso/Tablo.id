@@ -49,7 +49,7 @@ jobs:
 
       - name: Устанавливаем зависимости
         run: |
-          poetry install --no-interaction --with dev
+          poetry install --no-interaction --with main
 
       - name: Запускаем тесты
         env:
