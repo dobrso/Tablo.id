@@ -54,6 +54,7 @@ jobs:
       - name: Запускаем тесты
         env:
           DJANGO_SETTINGS_MODULE: tabloid.settings
+          PYTHONPATH: tabloid
           DB_HOST: localhost
           DB_NAME: tabloid_test
           DB_USER: admin
