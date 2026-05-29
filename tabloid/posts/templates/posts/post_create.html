@@ -1,15 +1,59 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Создать пост
+    Создать пост — Tablo.id
 {% endblock %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">
-            Создать
-        </button>
-    </form>
+<div class="create-post-container">
+    <div class="create-post-header">
+        <h1>Создать пост</h1>
+        <p>Поделитесь своей историей с миром киберпанка</p>
+    </div>
+
+    <div class="post-form">
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">
+                    <span class="label-icon">
+                        {% if field.name == 'title' %}
+                        {% elif field.name == 'description' %}
+                        {% elif field.name == 'author' %}
+                        {% elif field.name == 'tags' %}🏷
+                        {% else %}⚡
+                        {% endif %}
+                    </span>
+                    {{ field.label }}
+                </label>
+
+                {{ field }}
+
+                {% if field.help_text %}
+                <span class="help-text">{{ field.help_text }}</span>
+                {% endif %}
+
+                {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <div class="form-actions">
+                <a href="{% url 'posts:post_list' %}" class="cancel-btn">
+                    Отмена
+                </a>
+                <button type="submit" class="submit-btn">
+                    Опубликовать
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}

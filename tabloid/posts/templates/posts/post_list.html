@@ -1,12 +1,94 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Лента
+    Лента | Tablo.id
 {% endblock %}
 
 {% block content %}
-    <a href="{% url 'posts:post_create' %}">Создать пост</a>
-    {% for post in posts %}
-        {{ post.title }}
-    {% endfor %}
+    <div class="feed-header">
+        <h1>Лента постов</h1>
+        <a href="{% url 'posts:post_create' %}" class="create-post-btn">
+            <span class="btn-icon">+</span>
+            Создать пост
+        </a>
+    </div>
+
+    {% if posts %}
+        <div class="posts-grid">
+            {% for post in posts %}
+                <article class="post-card">
+                    <div class="post-header">
+                        <div class="author-info">
+                            <div class="author-avatar">
+                                {% if post.author.profile.avatar %}
+                                    <img src="{{ post.author.profile.avatar.url }}" alt="{{ post.author.username }}">
+                                {% else %}
+                                    <div class="avatar-placeholder">👤</div>
+                                {% endif %}
+                            </div>
+                            <div class="author-details">
+                                <span class="author-name">{{ post.author.username }}</span>
+                                <span class="post-date">{{ post.created_at|date:"d.m.Y H:i" }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="post-title">
+                        <a href="{% url 'posts:post_detail' post.id %}">{{ post.title }}</a>
+                    </h2>
+
+                    {% if post.image %}
+                        <div class="post-image">
+                            <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                        </div>
+                    {% endif %}
+
+                    <div class="post-excerpt">
+                        {{ post.content|truncatewords:50|linebreaks }}
+                    </div>
+
+                    <div class="post-footer">
+                        <div class="post-actions">
+                            <a href="{% url 'posts:post_detail' post.id %}" class="read-more-btn">
+                                Читать далее
+                                <span class="arrow">→</span>
+                            </a>
+                            {% if user == post.author %}
+                                <a href="{% url 'posts:post_edit' post.id %}" class="edit-btn">✏️</a>
+                                <a href="{% url 'posts:post_delete' post.id %}" class="delete-btn">🗑️</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+        <!-- Пагинация -->
+        {% if is_paginated %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="page-link">&laquo; Первая</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Назад</a>
+                {% endif %}
+
+                <span class="current-page">
+                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="page-link">Вперед</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Последняя &raquo;</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="empty-feed">
+            <div class="empty-icon">📭</div>
+            <h2>Пока нет постов</h2>
+            <p>Будьте первым, кто поделится историей!</p>
+            <a href="{% url 'posts:post_create' %}" class="create-first-btn">
+                Создать первый пост
+            </a>
+        </div>
+    {% endif %}
 {% endblock %}
